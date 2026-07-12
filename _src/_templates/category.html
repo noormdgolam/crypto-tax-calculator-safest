@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}{{ category }} | {{ site.site_name }}{% endblock %}
+{% block meta_description %}Browse our comprehensive guides and resources on {{ category }} for crypto investors.{% endblock %}
+{% block canonical_url %}/category/{{ category | slugify }}{% endblock %}
+{% block hreflang_url %}/category/{{ category | slugify }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="container">
+        <h1>Topic: {{ category }}</h1>
+        <p>Explore all articles and guides related to {{ category }}.</p>
+    </div>
+</div>
+
+<div class="container content-layout">
+    <div class="main-column">
+        <div class="article-list">
+            {% for article in articles %}
+            <article class="article-card list-view">
+                <div class="article-card-content">
+                    <h2><a href="/{{ article.slug }}">{{ article.title }}</a></h2>
+                    <p class="article-meta">{{ article.updated_date }} &bull; By {{ article.author }}</p>
+                    <p>{{ article.meta_description }}</p>
+                    <a href="/{{ article.slug }}" class="read-more">Read Guide &rarr;</a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <aside class="sidebar">
+        <div class="sidebar-widget">
+            <h3>Other Topics</h3>
+            <ul class="category-list">
+                {% for cat in site.categories %}
+                <li><a href="/category/{{ cat | slugify }}">{{ cat }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </aside>
+</div>
+{% endblock %}

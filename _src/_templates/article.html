@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+
+{% block title %}{{ article.title }} | {{ site.site_name }}{% endblock %}
+{% block meta_description %}{{ article.meta_description }}{% endblock %}
+{% block canonical_url %}/{{ article.slug }}{% endblock %}
+{% block hreflang_url %}/{{ article.slug }}{% endblock %}
+
+{% block og_type %}article{% endblock %}
+{% block og_title %}{{ article.title }}{% endblock %}
+{% block og_description %}{{ article.meta_description }}{% endblock %}
+{% block og_url %}/{{ article.slug }}{% endblock %}
+{% block twitter_title %}{{ article.title }}{% endblock %}
+{% block twitter_description %}{{ article.meta_description }}{% endblock %}
+
+{% block extra_head %}
+<!-- JSON-LD Article Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "{{ article.title }}",
+  "image": [
+    "{{ site.site_url }}/assets/images/og-default.jpg"
+  ],
+  "datePublished": "{{ article.published_date }}T08:00:00+08:00",
+  "dateModified": "{{ article.updated_date }}T08:00:00+08:00",
+  "author": [{
+      "@type": "Person",
+      "name": "{{ article.author }}",
+      "url": "{{ site.site_url }}/about-us"
+    }]
+}
+</script>
+<!-- JSON-LD BreadcrumbList Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+    "@type": "ListItem",
+    "position": 1,
+    "name": "Home",
+    "item": "{{ site.site_url }}"
+  },{
+    "@type": "ListItem",
+    "position": 2,
+    "name": "{{ article.category }}",
+    "item": "{{ site.site_url }}/category/{{ article.category | slugify }}"
+  },{
+    "@type": "ListItem",
+    "position": 3,
+    "name": "{{ article.title }}"
+  }]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container content-layout article-layout">
+    <div class="main-column">
+        <article class="single-article">
+            <header class="article-header">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/category/{{ article.category | slugify }}">{{ article.category }}</a></li>
+                        <li aria-current="page">{{ article.title }}</li>
+                    </ol>
+                </nav>
+                
+                <h1>{{ article.title }}</h1>
+                <div class="article-meta">
+                    <div class="author-info">
+                        By <a href="/about-us">{{ article.author }}</a>
+                    </div>
+                    <div class="date-info">
+                        Last Updated: <time datetime="{{ article.updated_date }}">{{ article.updated_date }}</time>
+                    </div>
+                </div>
+            </header>
+
+            <div class="article-body">
+                {% set h2_count = namespace(value=0) %}
+                {% for block in article.content_blocks %}
+                    {% if block.type == 'intro' %}
+                        <div class="article-intro">{{ block.text | safe }}</div>
+                    {% elif block.type == 'key_takeaways' %}
+                        <div class="key-takeaways">
+                            <h3>Key Takeaways</h3>
+                            <ul>
+                                {% for item in block['items'] %}
+                                <li>{{ item }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% elif block.type == 'h2' %}
+                        {% set h2_count.value = h2_count.value + 1 %}
+                        <h2>{{ block.text }}</h2>
+                        
+                        {% if h2_count.value == 1 %}
+                            <!-- Mid-Article AdSense -->
+                            <div class="ad-container mid-article-ad">
+                                <ins class="adsbygoogle"
+                                     style="display:block; text-align:center;"
+                                     data-ad-layout="in-article"
+                                     data-ad-format="fluid"
+                                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                                     data-ad-slot="XXXXXXXXXX"></ins>
+                                <script>
+                                     (adsbygoogle = window.adsbygoogle || []).push({});
+                                </script>
+                            </div>
+                        {% endif %}
+                        
+                        {% if h2_count.value == 2 %}
+                            <!-- Newsletter Opt-in -->
+                            <div class="inline-newsletter">
+                                <h3>Don't Miss Crypto Tax Strategies</h3>
+                                <p>Join 5,000+ crypto investors getting our weekly insights.</p>
+                                <form action="#" method="POST" onsubmit="event.preventDefault(); alert('Subscribed!');">
+                                    <input type="email" placeholder="Your email address" required>
+                                    <button type="submit" class="btn btn-primary">Get Updates</button>
+                                </form>
+                            </div>
+                        {% endif %}
+                    {% elif block.type == 'h3' %}
+                        <h3>{{ block.text }}</h3>
+                    {% elif block.type == 'paragraph' %}
+                        <p>{{ block.text | safe }}</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            
+            <!-- End of Article AdSense -->
+            <div class="ad-container end-article-ad">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                     data-ad-slot="XXXXXXXXXX"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+
+            <!-- Social Share (Inline Mobile, Floating Desktop) -->
+            <div class="social-share">
+                <span class="share-title">Share this guide:</span>
+                <a href="https://twitter.com/intent/tweet?url={{ site.site_url }}/{{ article.slug }}&text={{ article.title | urlencode }}" target="_blank" rel="noopener" class="share-btn twitter" aria-label="Share on X (Twitter)">X</a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{ site.site_url }}/{{ article.slug }}" target="_blank" rel="noopener" class="share-btn facebook" aria-label="Share on Facebook">FB</a>
+                <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ site.site_url }}/{{ article.slug }}&title={{ article.title | urlencode }}" target="_blank" rel="noopener" class="share-btn linkedin" aria-label="Share on LinkedIn">IN</a>
+                <a href="javascript:void(0)" onclick="navigator.clipboard.writeText('{{ site.site_url }}/{{ article.slug }}'); alert('Link copied!');" class="share-btn copy-link" aria-label="Copy Link">Copy</a>
+            </div>
+
+            <div class="author-bio-box">
+                <img src="/assets/images/author.svg" alt="{{ site.author.name }}" class="author-avatar" width="80" height="80">
+                <div class="bio-text">
+                    <h4>About {{ site.author.name }}</h4>
+                    <p>{{ site.author.bio }} <a href="/about-us">Read full bio &rarr;</a></p>
+                </div>
+            </div>
+            
+            <section class="disclaimer-section">
+                <p><em>Disclaimer: The information provided in this article is for educational purposes only and does not constitute financial or legal advice. Please consult with a certified tax professional before making tax reporting decisions.</em></p>
+            </section>
+        </article>
+    </div>
+    
+    <aside class="sidebar">
+        <!-- Sidebar AdSense -->
+        <div class="ad-container sidebar-ad">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="XXXXXXXXXX"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+
+        <div class="sidebar-widget related-articles">
+            <h3>Similar Items</h3>
+            <ul>
+                {% for related in related_articles %}
+                <li>
+                    <a href="/{{ related.slug }}">
+                        <h4>{{ related.title }}</h4>
+                        <span class="read-time">5 min read</span>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </aside>
+</div>
+{% endblock %}

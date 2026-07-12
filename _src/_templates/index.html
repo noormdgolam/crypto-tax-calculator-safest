@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}{{ site.site_name }} - {{ site.description }}{% endblock %}
+{% block meta_description %}{{ site.description }}{% endblock %}
+{% block canonical_url %}/{% endblock %}
+{% block hreflang_url %}/{% endblock %}
+{% block og_url %}/{% endblock %}
+
+{% block content %}
+<section class="hero-section">
+    <div class="container">
+        <h1>Secure Your Crypto Assets and Taxes</h1>
+        <p class="hero-subtitle">{{ site.description }}</p>
+        <a href="#featured-articles" class="btn btn-primary btn-large">Explore Guides</a>
+    </div>
+</section>
+
+<div class="container content-layout">
+    <div class="main-column">
+        <!-- AdSense Above Fold -->
+        <div class="ad-container above-fold-ad">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="XXXXXXXXXX"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+
+        <section id="featured-articles" class="home-articles">
+            <h2>Featured Guides for Fleet Owners</h2>
+            <div class="article-grid">
+                {% for article in articles[:6] %}
+                <article class="article-card">
+                    <div class="article-card-content">
+                        <span class="category-tag">{{ article.category }}</span>
+                        <h3><a href="/{{ article.slug }}">{{ article.title }}</a></h3>
+                        <p>{{ article.meta_description }}</p>
+                        <a href="/{{ article.slug }}" class="read-more">Read More &rarr;</a>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="topic-hubs">
+            <h2>Browse by Topic</h2>
+            <div class="hub-grid">
+                {% for category in site.categories %}
+                <a href="/category/{{ category | slugify }}" class="hub-card">
+                    <h3>{{ category }}</h3>
+                </a>
+                {% endfor %}
+            </div>
+        </section>
+    </div>
+    
+    <aside class="sidebar">
+        <div class="sidebar-widget">
+            <h3>About Us</h3>
+            <p>{{ site.site_name }} is dedicated to providing objective, actionable advice on crypto tax calculations and reporting.</p>
+            <a href="/about-us">Learn more</a>
+        </div>
+        <div class="sidebar-widget">
+            <h3>Newsletter</h3>
+            <p>Get the latest crypto tax strategies delivered to your inbox.</p>
+            <form class="sidebar-newsletter" action="#" method="POST" onsubmit="event.preventDefault(); alert('Subscribed!');">
+                <input type="email" placeholder="Your email address" required>
+                <button type="submit" class="btn btn-primary">Subscribe</button>
+            </form>
+        </div>
+    </aside>
+</div>
+{% endblock %}

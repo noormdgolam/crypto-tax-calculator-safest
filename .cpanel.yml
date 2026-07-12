@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/bongshai/public_html/crypto-tax-calculator-safest
+    - /bin/cp -R * $DEPLOYPATH
