@@ -52,7 +52,21 @@
 <body>
     <header class="site-header">
         <div class="container header-inner">
-            <a href="/" class="brand">{{ site.brand_name }}</a>
+            <a href="/" class="brand">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--secondary-color)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                    <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                    <rect x="9" y="9" width="6" height="6"></rect>
+                    <line x1="9" y1="1" x2="9" y2="4"></line>
+                    <line x1="15" y1="1" x2="15" y2="4"></line>
+                    <line x1="9" y1="20" x2="9" y2="23"></line>
+                    <line x1="15" y1="20" x2="15" y2="23"></line>
+                    <line x1="20" y1="9" x2="23" y2="9"></line>
+                    <line x1="20" y1="14" x2="23" y2="14"></line>
+                    <line x1="1" y1="9" x2="4" y2="9"></line>
+                    <line x1="1" y1="14" x2="4" y2="14"></line>
+                </svg>
+                {{ site.brand_name }}
+            </a>
             
             <nav class="main-nav" id="main-nav">
                 <ul class="nav-links">
@@ -65,10 +79,10 @@
                 </ul>
             </nav>
             
-            <div class="header-search">
-                <input type="text" id="searchInput" placeholder="Search articles...">
-                <div id="searchResults" class="search-results"></div>
-            </div>
+            <form class="header-search" action="/search/" method="GET" style="display: flex; align-items: center;">
+                <input type="text" name="q" id="searchInput" placeholder="Search articles..." required style="padding: 8px; border-radius: 4px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color);">
+                <button type="submit" class="btn btn-primary" style="padding: 8px 12px; margin-left: 5px;">Search</button>
+            </form>
             
             <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle Menu">
                 <span class="hamburger"></span>

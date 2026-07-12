@@ -88,12 +88,56 @@ def create_static_pages(site, articles):
         {
             "slug": "disclaimer",
             "title": "Disclaimer",
-            "meta_description": "Financial and legal disclaimer for our content.",
+            "meta_description": "Disclaimer for Crypto Tax Calculator Guide.",
             "content": """
-            <h2>General Disclaimer</h2>
-            <p>The content provided on Extended Car Warranty Hub is for informational and educational purposes only. It is not intended as financial, legal, or professional advice. Always consult with a licensed insurance broker, financial advisor, or legal counsel before making decisions regarding commercial vehicle warranties, service contracts, or insurance policies.</p>
-            <p>We make no representations as to the accuracy, completeness, or suitability of any information on this site and will not be liable for any errors, omissions, or delays in this information or any losses, injuries, or damages arising from its display or use.</p>
-            """
+            <p>The information provided on this website does not, and is not intended to, constitute legal, tax, or financial advice; instead, all information, content, and materials available on this site are for general informational purposes only.</p>
+            """,
+            "is_page": True
+        },
+        {
+            "slug": "search",
+            "title": "Search Results",
+            "meta_description": "Search the Crypto Tax Calculator Guide.",
+            "content": """
+            <div id="search-results-page" style="min-height: 400px;">
+                <p>Loading results...</p>
+            </div>
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const params = new URLSearchParams(window.location.search);
+                    const query = params.get('q');
+                    const container = document.getElementById('search-results-page');
+                    if (!query) {
+                        container.innerHTML = '<p>Please enter a search term in the search bar above.</p>';
+                        return;
+                    }
+                    container.innerHTML = '<h2>Results for "' + query.replace(/</g, "&lt;").replace(/>/g, "&gt;") + '"</h2><ul id="results-list" style="list-style: none; padding: 0;"></ul>';
+                    const list = document.getElementById('results-list');
+                    
+                    fetch('/search_index.json')
+                        .then(res => res.json())
+                        .then(data => {
+                            const q = query.toLowerCase();
+                            const results = data.filter(item => 
+                                item.title.toLowerCase().includes(q) || 
+                                item.description.toLowerCase().includes(q)
+                            );
+                            if(results.length === 0) {
+                                list.innerHTML = '<li style="padding: 20px 0; color: var(--text-light);">No results found. Please try another search.</li>';
+                            } else {
+                                results.forEach(item => {
+                                    list.innerHTML += '<li style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border-color);"><a href="'+item.url+'" style="text-decoration: none; color: var(--secondary-color);"><h3 style="margin-bottom: 5px;">'+item.title+'</h3></a><p style="margin: 0; color: var(--text-light);">'+item.description+'</p></li>';
+                                });
+                            }
+                        })
+                        .catch(err => {
+                            container.innerHTML = '<p>Error loading search results.</p>';
+                            console.error(err);
+                        });
+                });
+            </script>
+            """,
+            "is_page": True
         }
     ]
     

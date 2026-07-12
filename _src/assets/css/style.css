@@ -15,7 +15,22 @@
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: var(--font-body); color: var(--text-color); background: var(--bg-color); line-height: 1.6; }
+body {
+    font-family: var(--font-body);
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    line-height: 1.6;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    text-decoration: none;
+}
 a { color: var(--secondary-color); text-decoration: none; transition: color 0.2s ease; }
 a:hover { color: var(--primary-color); }
 h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); font-weight: 700; color: var(--primary-color); margin-bottom: 1rem; line-height: 1.2; }
