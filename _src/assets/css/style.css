@@ -1,13 +1,13 @@
 /* CSS Variables & Reset */
 :root {
-    --primary-color: #0b0e14; /* Very Dark Background */
-    --secondary-color: #00ff9d; /* Neon Green */
-    --accent-color: #8b5cf6; /* Purple Web3 Accent */
-    --text-color: #e2e8f0;
-    --text-light: #94a3b8;
-    --bg-color: #0f172a;
-    --bg-white: #1e293b;
-    --border-color: #334155;
+    --primary-color: #0F172A; /* Deep Navy */
+    --secondary-color: #0052FF; /* Bright Crypto Blue */
+    --accent-color: #F7931A; /* Bitcoin Orange */
+    --text-color: #334155; /* Slate 700 */
+    --text-light: #64748B; /* Slate 500 */
+    --bg-color: #F8FAFC; /* Very Light Gray/Blue */
+    --bg-white: #FFFFFF; /* Pure White */
+    --border-color: #E2E8F0; /* Slate 200 */
     --success-color: #10B981;
     --font-heading: 'Outfit', sans-serif;
     --font-body: 'Inter', sans-serif;
