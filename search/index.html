@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terms of Service | Crypto Tax Calculator Guide</title>
-    <meta name="description" content="Terms of service for using our website.">
+    <title>Search Results | Crypto Tax Calculator Guide</title>
+    <meta name="description" content="Search the Crypto Tax Calculator Guide.">
     
     <!-- Canonical -->
-    <link rel="canonical" href="https://crypto-tax-calculator-safest.bongshai.com/terms-of-service">
+    <link rel="canonical" href="https://crypto-tax-calculator-safest.bongshai.com/search">
     
     <!-- Hreflang -->
     <link rel="alternate" hreflang="en-us" href="https://crypto-tax-calculator-safest.bongshai.com/" />
@@ -102,17 +102,50 @@
         
 <div class="page-header">
     <div class="container">
-        <h1>Terms of Service</h1>
+        <h1>Search Results</h1>
     </div>
 </div>
 
 <div class="container content-layout">
     <div class="main-column page-content">
         
-            <h2>1. Acceptance of Terms</h2>
-            <p>By accessing our website, you agree to be bound by these Terms of Service and all applicable laws and regulations.</p>
-            <h2>2. Intellectual Property</h2>
-            <p>All content on this site is the property of Extended Car Warranty Hub unless otherwise noted.</p>
+            <div id="search-results-page" style="min-height: 400px;">
+                <p>Loading results...</p>
+            </div>
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const params = new URLSearchParams(window.location.search);
+                    const query = params.get('q');
+                    const container = document.getElementById('search-results-page');
+                    if (!query) {
+                        container.innerHTML = '<p>Please enter a search term in the search bar above.</p>';
+                        return;
+                    }
+                    container.innerHTML = '<h2>Results for "' + query.replace(/</g, "&lt;").replace(/>/g, "&gt;") + '"</h2><ul id="results-list" style="list-style: none; padding: 0;"></ul>';
+                    const list = document.getElementById('results-list');
+                    
+                    fetch('/search_index.json')
+                        .then(res => res.json())
+                        .then(data => {
+                            const q = query.toLowerCase();
+                            const results = data.filter(item => 
+                                item.title.toLowerCase().includes(q) || 
+                                item.description.toLowerCase().includes(q)
+                            );
+                            if(results.length === 0) {
+                                list.innerHTML = '<li style="padding: 20px 0; color: var(--text-light);">No results found. Please try another search.</li>';
+                            } else {
+                                results.forEach(item => {
+                                    list.innerHTML += '<li style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border-color);"><a href="'+item.url+'" style="text-decoration: none; color: var(--secondary-color);"><h3 style="margin-bottom: 5px;">'+item.title+'</h3></a><p style="margin: 0; color: var(--text-light);">'+item.description+'</p></li>';
+                                });
+                            }
+                        })
+                        .catch(err => {
+                            container.innerHTML = '<p>Error loading search results.</p>';
+                            console.error(err);
+                        });
+                });
+            </script>
             
     </div>
 </div>
