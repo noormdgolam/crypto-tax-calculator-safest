@@ -10,6 +10,15 @@
     <div class="container">
         <h1>Topic: {{ category }}</h1>
         <p>Explore all articles and guides related to {{ category }}.</p>
+
+<!-- Google AdSense - In-Article -->
+<div class="ad-placeholder" style="margin: 20px 0; text-align: center;">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0000000000000000" crossorigin="anonymous"></script>
+    <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-0000000000000000" data-ad-slot="0000000000"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+
     </div>
 </div>
 
@@ -22,6 +31,15 @@
                     <h2><a href="/{{ article.slug }}">{{ article.title }}</a></h2>
                     <p class="article-meta">{{ article.updated_date }} &bull; By {{ article.author }}</p>
                     <p>{{ article.meta_description }}</p>
+
+<!-- Google AdSense - In-Article -->
+<div class="ad-placeholder" style="margin: 20px 0; text-align: center;">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0000000000000000" crossorigin="anonymous"></script>
+    <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-0000000000000000" data-ad-slot="0000000000"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+
                     <a href="/{{ article.slug }}" class="read-more">Read Guide &rarr;</a>
                 </div>
             </article>
